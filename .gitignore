@@ -1,0 +1,16 @@
+node_modules
+dist
+.cache
+.npm
+.sass-cache
+*.css.map
+*.sass.map
+*.scss.map
+.vs
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.DS_Store

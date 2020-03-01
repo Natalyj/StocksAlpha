@@ -1,0 +1,19 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "moduleResolution": "node",
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "alwaysStrict": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "removeComments": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

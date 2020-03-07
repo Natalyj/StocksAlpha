@@ -1,2 +1,6 @@
+import { API_KEY } from '../../data';
+
 export const QUERY_START = 'https://www.alphavantage.co/query?';
-export const APIKEY_QUERY = 'apikey=5Z28BTDIBC2MNRTP';
+export const APIKEY_QUERY = `apikey=${API_KEY}`;
+
+export const DEFAULT_TIME_ZONE = 'US/Eastern';

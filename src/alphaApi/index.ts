@@ -1,8 +1,10 @@
-import { requestTimeSeries } from './requestTimeSeries';
-import { Interval, TimeSeries } from './types';
+import { getTimeSeries } from './getTimeSeries';
+import { Interval, TimeSeries, PriceField, StockInfo } from './types';
 
 export {
-	requestTimeSeries,
+	getTimeSeries,
 	TimeSeries,
-	Interval
+	Interval,
+	PriceField,
+	StockInfo
 };

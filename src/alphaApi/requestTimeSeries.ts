@@ -3,12 +3,14 @@ import { Interval, TimeSeries } from './types';
 import { isIntervalFunction, requestJson } from './utils';
 
 export const requestTimeSeries = async (
-	timeSeries: TimeSeries,
-	company: string,
-	interval: Interval
+  timeSeries: TimeSeries,
+  company: string,
+  interval: Interval
 ): Promise<any> => {
-	const intervalQuery = isIntervalFunction(timeSeries) ? `&interval=${interval}` : '';
-	const requestQuery = `${QUERY_START}function=${timeSeries}&symbol=${company}${intervalQuery}&${APIKEY_QUERY}`;
+  const intervalQuery = isIntervalFunction(timeSeries)
+    ? `&interval=${interval}`
+    : '';
+  const requestQuery = `${QUERY_START}function=${timeSeries}&symbol=${company}${intervalQuery}&${APIKEY_QUERY}`;
 
-	return await requestJson(requestQuery);
+  return await requestJson(requestQuery);
 };

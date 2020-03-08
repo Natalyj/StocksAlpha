@@ -14,7 +14,7 @@ export const parseTimeSeries = (
   for (const [date, values] of timeSeriesEntries) {
     prices.push({
       date: getCurrentDate(date, timeZone),
-      price: Number(getFieldValue(values, priceField))
+      price: Number(getFieldValue(values, priceField)),
     });
   }
 

@@ -8,5 +8,6 @@ export const getTimeSeries = async (
   priceField: PriceField,
   interval = Interval.Five
 ): Promise<StockInfo[]> =>
-  await requestTimeSeries(timeSeries, company, interval)
-    .then(series => parseTimeSeries(series, priceField));
+  await requestTimeSeries(timeSeries, company, interval).then(series =>
+    parseTimeSeries(series, priceField)
+  );

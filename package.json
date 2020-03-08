@@ -11,6 +11,10 @@
   "keywords": [],
   "author": "ntokmakova",
   "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Natalyj/StocksAlpha"
+  },
   "dependencies": {
     "moment-timezone": "^0.5.28",
     "react": "^16.13.0",
@@ -24,7 +28,14 @@
     "@types/moment-timezone": "^0.5.12",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
     "parcel-bundler": "^1.12.4",
+    "prettier": "^1.19.1",
     "typescript": "^3.8.3"
   }
 }

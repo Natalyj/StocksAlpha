@@ -1,4 +1,4 @@
-import { drawAxis } from './drawAxis';
+import { drawAxes } from './drawAxes';
 import { drawGraph } from './drawGraph';
 
-export { drawAxis, drawGraph };
+export { drawAxes, drawGraph };

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { getContext2d } from './utils';
-import { drawAxis, drawGraph } from './draw';
+import { drawAxes, drawGraph } from './draw';
 
 interface Props {
   id: string;
@@ -17,7 +17,7 @@ export const LineGraph: React.FC<Props> = ({
 }: Props) => {
   useEffect(() => {
     const context2d = getContext2d(id);
-    drawAxis(context2d);
+    drawAxes(context2d);
     drawGraph(context2d, dataToDraw);
   });
 

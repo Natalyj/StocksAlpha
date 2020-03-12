@@ -1,7 +1,7 @@
 import { AXIS_PADDING, ARROW_LENGTH } from '../constants';
 import { Point2D } from '../types';
 
-export const drawAxis = (context2d: CanvasRenderingContext2D): void => {
+export const drawAxes = (context2d: CanvasRenderingContext2D): void => {
   const {
     canvas: { width, height },
   } = context2d;

@@ -17,17 +17,25 @@ export const drawGraph = (
   if (keys.length !== 2) {
     return;
   }
-  const yValues = dataToDraw.map(data => Number(data[keys[1]]));
-  const { min: yMin, max: yMax } = getMinMax(yValues);
+  // for faster calculations get characteristics in one run
+  const { values: yValues, min: yMin, max: yMax } = getDataCharacteristics(
+    dataToDraw,
+    keys[1]
+  );
 
-  const canvasPadding = GRAPH_PADDING * 2 + AXIS_PADDING * 2;
-  const xGapBetweenPoints = (width - canvasPadding) / numberOfPoints;
-  const yGapBetweenPoints = (height - canvasPadding) / (yMax - yMin);
+  const getVariationFromYMax = (currentValue: number): number =>
+    yMax - currentValue + 1;
 
+  const bothSidesPadding = (GRAPH_PADDING + AXIS_PADDING) * 2;
+  const xGapBetweenPoints = (width - bothSidesPadding) / numberOfPoints;
+  const yGapBetweenPoints =
+    (height - bothSidesPadding) / getVariationFromYMax(yMin);
+
+  const graphEdgesPadding = GRAPH_PADDING + AXIS_PADDING;
   const getGraphRelatedY = (currentY: number): number =>
-    GRAPH_PADDING + (yMax - currentY) * yGapBetweenPoints;
+    graphEdgesPadding + getVariationFromYMax(currentY) * yGapBetweenPoints;
 
-  let currentX = GRAPH_PADDING;
+  let currentX = graphEdgesPadding;
   context2d.beginPath();
   context2d.moveTo(currentX, getGraphRelatedY(yValues[0]));
   for (let i = 1; i < numberOfPoints; i++) {
@@ -37,11 +45,18 @@ export const drawGraph = (
   context2d.stroke();
 };
 
-const getMinMax = (values: number[]): { min: number; max: number } => {
+const getDataCharacteristics = (
+  dataToDraw: Array<any>,
+  key: string
+): { values: number[]; min: number; max: number } => {
+  const values: number[] = [];
   let min = Number.MAX_SAFE_INTEGER;
   let max = Number.MIN_SAFE_INTEGER;
 
-  for (const value of values) {
+  dataToDraw.forEach(data => {
+    const value = Number(data[key]);
+    values.push(value);
+
     if (value < min) {
       min = value;
     }
@@ -49,7 +64,7 @@ const getMinMax = (values: number[]): { min: number; max: number } => {
     if (value > max) {
       max = value;
     }
-  }
+  });
 
-  return { min, max };
+  return { values, min, max };
 };

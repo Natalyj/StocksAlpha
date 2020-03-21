@@ -27,7 +27,7 @@ export const drawGraph = (
     yMax - currentValue + 1;
 
   const bothSidesPadding = (GRAPH_PADDING + AXIS_PADDING) * 2;
-  const xGapBetweenPoints = (width - bothSidesPadding) / numberOfPoints;
+  const xGapBetweenPoints = (width - bothSidesPadding) / (numberOfPoints - 1);
   const yGapBetweenPoints =
     (height - bothSidesPadding) / getVariationFromYMax(yMin);
 

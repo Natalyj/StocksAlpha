@@ -1,27 +1,25 @@
 import { AXIS_PADDING, ARROW_LENGTH } from '../constants';
 import { Point2D } from '../types';
+import { addControlLine } from './addControlLine';
 
 export const drawAxes = (context2d: CanvasRenderingContext2D): void => {
-  const {
-    canvas: { width, height },
-  } = context2d;
+  const { canvas } = context2d;
+  const { width, height } = canvas;
 
   const widthPadding = width - AXIS_PADDING;
   const heightPadding = height - AXIS_PADDING;
 
+  const axesBegin: Point2D = { x: AXIS_PADDING, y: heightPadding };
+  const xAxesEnd: Point2D = { x: widthPadding, y: heightPadding };
+  const yAxesEnd: Point2D = { x: AXIS_PADDING, y: AXIS_PADDING };
+
   // X axis
-  drawArrow(
-    context2d,
-    { x: AXIS_PADDING, y: heightPadding },
-    { x: widthPadding, y: heightPadding }
-  );
+  drawArrow(context2d, axesBegin, xAxesEnd);
 
   // Y axis
-  drawArrow(
-    context2d,
-    { x: AXIS_PADDING, y: heightPadding },
-    { x: AXIS_PADDING, y: AXIS_PADDING }
-  );
+  drawArrow(context2d, axesBegin, yAxesEnd);
+
+  addControlLine(context2d, axesBegin, xAxesEnd, yAxesEnd);
 };
 
 const drawArrow = (

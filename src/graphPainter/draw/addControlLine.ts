@@ -1,5 +1,6 @@
 import { AXIS_PICKING_ZONE, GRAPH_PADDING } from '../constants';
 import { Point2D, RectangleCoords, AxisCoords } from '../types';
+import { roundFast } from '../utils';
 
 export const addControlLine = (
   context2d: CanvasRenderingContext2D,
@@ -27,8 +28,9 @@ export const addControlLine = (
 
       context2d.beginPath();
 
-      context2d.moveTo(x, axesBegin.y);
-      context2d.lineTo(x, yAxesEnd.y);
+      const roundedX = roundFast(x);
+      context2d.moveTo(roundedX, axesBegin.y);
+      context2d.lineTo(roundedX, yAxesEnd.y);
 
       context2d.stroke();
     }

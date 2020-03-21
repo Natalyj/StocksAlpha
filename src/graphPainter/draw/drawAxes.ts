@@ -1,5 +1,6 @@
 import { ARROW_LENGTH } from '../constants';
 import { Point2D, AxisCoords } from '../types';
+import { roundFast } from '../utils';
 
 export const drawAxes = (
   context2d: CanvasRenderingContext2D,
@@ -31,13 +32,13 @@ const drawArrow = (
   context2d.moveTo(from.x, from.y);
   context2d.lineTo(to.x, to.y);
   context2d.lineTo(
-    to.x - ARROW_LENGTH * Math.cos(negativeInclination),
-    to.y - ARROW_LENGTH * Math.sin(negativeInclination)
+    roundFast(to.x - ARROW_LENGTH * Math.cos(negativeInclination)),
+    roundFast(to.y - ARROW_LENGTH * Math.sin(negativeInclination))
   );
   context2d.moveTo(to.x, to.y);
   context2d.lineTo(
-    to.x - ARROW_LENGTH * Math.cos(positiveInclination),
-    to.y - ARROW_LENGTH * Math.sin(positiveInclination)
+    roundFast(to.x - ARROW_LENGTH * Math.cos(positiveInclination)),
+    roundFast(to.y - ARROW_LENGTH * Math.sin(positiveInclination))
   );
 
   context2d.stroke();

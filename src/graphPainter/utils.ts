@@ -20,8 +20,8 @@ export const computeAxisCoords = (
   const { canvas } = context2d;
   const { width, height } = canvas;
 
-  const widthPadding = width - AXIS_PADDING;
-  const heightPadding = height - AXIS_PADDING;
+  const widthPadding = roundFast(width - AXIS_PADDING);
+  const heightPadding = roundFast(height - AXIS_PADDING);
 
   return {
     axesBegin: { x: AXIS_PADDING, y: heightPadding },
@@ -29,3 +29,5 @@ export const computeAxisCoords = (
     yAxesEnd: { x: AXIS_PADDING, y: AXIS_PADDING },
   };
 };
+
+export const roundFast = (value: number): number => (0.5 + value) << 0;

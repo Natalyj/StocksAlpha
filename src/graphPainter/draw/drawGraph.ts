@@ -1,4 +1,5 @@
 import { GRAPH_PADDING, AXIS_PADDING } from '../constants';
+import { roundFast } from '../utils';
 
 export const drawGraph = (
   context2d: CanvasRenderingContext2D,
@@ -33,14 +34,16 @@ export const drawGraph = (
 
   const graphEdgesPadding = GRAPH_PADDING + AXIS_PADDING;
   const getGraphRelatedY = (currentY: number): number =>
-    graphEdgesPadding + getVariationFromYMax(currentY) * yGapBetweenPoints;
+    roundFast(
+      graphEdgesPadding + getVariationFromYMax(currentY) * yGapBetweenPoints
+    );
 
   let currentX = graphEdgesPadding;
   context2d.beginPath();
   context2d.moveTo(currentX, getGraphRelatedY(yValues[0]));
   for (let i = 1; i < numberOfPoints; i++) {
     currentX += xGapBetweenPoints;
-    context2d.lineTo(currentX, getGraphRelatedY(yValues[i]));
+    context2d.lineTo(roundFast(currentX), getGraphRelatedY(yValues[i]));
   }
   context2d.stroke();
 };

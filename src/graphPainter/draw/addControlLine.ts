@@ -1,13 +1,14 @@
 import { AXIS_PICKING_ZONE, GRAPH_PADDING } from '../constants';
-import { Point2D, RectangleCoords } from '../types';
+import { Point2D, RectangleCoords, AxisCoords } from '../types';
 
 export const addControlLine = (
   context2d: CanvasRenderingContext2D,
-  axesBegin: Point2D,
-  xAxesEnd: Point2D,
-  yAxesEnd: Point2D
+  axisCoords: AxisCoords,
+  redrawCanvas: () => void
 ): void => {
   const { canvas } = context2d;
+  const { axesBegin, xAxesEnd, yAxesEnd } = axisCoords;
+
   const graphBoundingRect: RectangleCoords = {
     lowLeftCoords: {
       x: axesBegin.x + GRAPH_PADDING,
@@ -21,9 +22,9 @@ export const addControlLine = (
 
   canvas.onmousemove = (event: MouseEvent): void => {
     const { x, y } = event;
-
     if (isBetweenExtendedZone({ x, y }, graphBoundingRect)) {
-      // temp solution: just draw a line
+      redrawCanvas();
+
       context2d.beginPath();
 
       context2d.moveTo(x, axesBegin.y);

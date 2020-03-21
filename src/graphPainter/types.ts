@@ -7,3 +7,9 @@ export interface RectangleCoords {
   lowLeftCoords: Point2D;
   highRightCoords: Point2D;
 }
+
+export interface AxisCoords {
+  axesBegin: Point2D;
+  xAxesEnd: Point2D;
+  yAxesEnd: Point2D;
+}

@@ -9,26 +9,45 @@ interface Props {
   dataToDraw: Array<any>;
 }
 
+const getStaticCanvasId = (id: string): string => `${id}-static`;
+const getDynamicCanvasId = (id: string): string => `${id}-dynamic`;
+
 export const LineGraph: React.FC<Props> = ({
   id,
   width,
   height,
   dataToDraw,
 }: Props) => {
+  const idStatic = getStaticCanvasId(id);
+  const idDynamic = getDynamicCanvasId(id);
+
   useEffect(() => {
-    const context2d = getContext2d(id);
-    const axisCoords = computeAxisCoords(context2d);
+    const context2dStatic = getContext2d(idStatic);
+    const context2dDynamic = getContext2d(idDynamic);
 
-    const redrawLineGraph = (): void => {
-      const { canvas } = context2d;
-      context2d.clearRect(0, 0, canvas.width, canvas.height);
-      drawAxes(context2d, axisCoords);
-      drawGraph(context2d, dataToDraw);
-    };
+    const axisCoords = computeAxisCoords(context2dStatic);
 
-    redrawLineGraph();
-    addControlLine(context2d, axisCoords, redrawLineGraph);
+    drawAxes(context2dStatic, axisCoords);
+    drawGraph(context2dStatic, dataToDraw);
+
+    addControlLine(context2dDynamic, axisCoords);
   });
 
-  return <canvas id={id} width={width} height={height} />;
+  return (
+    <>
+      <canvas
+        id={idStatic}
+        width={width}
+        height={height}
+        style={{ zIndex: 1, position: 'absolute' }}
+      />
+
+      <canvas
+        id={idDynamic}
+        width={width}
+        height={height}
+        style={{ zIndex: 2, position: 'absolute' }}
+      />
+    </>
+  );
 };

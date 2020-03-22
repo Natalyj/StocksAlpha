@@ -7,7 +7,6 @@
     ],
     "moduleResolution": "node",
     "jsx": "react",
-    "jsxFactory": "React.createElement",
     "strict": true,
     "esModuleInterop": true,
     "removeComments": true

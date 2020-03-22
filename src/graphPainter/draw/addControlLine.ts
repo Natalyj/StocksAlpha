@@ -4,8 +4,7 @@ import { roundFast } from '../utils';
 
 export const addControlLine = (
   context2d: CanvasRenderingContext2D,
-  axisCoords: AxisCoords,
-  redrawCanvas: () => void
+  axisCoords: AxisCoords
 ): void => {
   const { canvas } = context2d;
   const { axesBegin, xAxesEnd, yAxesEnd } = axisCoords;
@@ -24,7 +23,7 @@ export const addControlLine = (
   canvas.onmousemove = (event: MouseEvent): void => {
     const { x, y } = event;
     if (isBetweenExtendedZone({ x, y }, graphBoundingRect)) {
-      redrawCanvas();
+      context2d.clearRect(0, 0, canvas.width, canvas.height);
 
       context2d.beginPath();
 

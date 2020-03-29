@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getContext2d, computeAxisCoords } from './utils';
+import { getContext2d, computeAxisCoords, getDataCoordinates } from './utils';
 import { drawAxes, drawGraph, addControlLine } from './draw';
 
 interface Props {
@@ -26,11 +26,12 @@ export const LineGraph: React.FC<Props> = ({
     const context2dDynamic = getContext2d(idDynamic);
 
     const axisCoords = computeAxisCoords(context2dStatic);
+    const dataCoordinates = getDataCoordinates(dataToDraw, context2dStatic);
 
     drawAxes(context2dStatic, axisCoords);
-    drawGraph(context2dStatic, dataToDraw);
+    drawGraph(context2dStatic, dataCoordinates);
 
-    addControlLine(context2dDynamic, axisCoords);
+    addControlLine(context2dDynamic, axisCoords, dataCoordinates);
   });
 
   return (

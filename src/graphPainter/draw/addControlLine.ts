@@ -4,7 +4,8 @@ import { roundFast } from '../utils';
 
 export const addControlLine = (
   context2d: CanvasRenderingContext2D,
-  axisCoords: AxisCoords
+  axisCoords: AxisCoords,
+  dataCoordinates: Map<number, number>
 ): void => {
   const { canvas } = context2d;
   const { axesBegin, xAxesEnd, yAxesEnd } = axisCoords;
@@ -23,11 +24,12 @@ export const addControlLine = (
   canvas.onmousemove = (event: MouseEvent): void => {
     const { x, y } = event;
     if (isBetweenExtendedZone({ x, y }, graphBoundingRect)) {
-      context2d.clearRect(0, 0, canvas.width, canvas.height);
+      const roundedX = roundFast(x);
 
+      context2d.clearRect(0, 0, canvas.width, canvas.height);
       context2d.beginPath();
 
-      const roundedX = roundFast(x);
+      drawControlPoint(context2d, roundedX);
       context2d.moveTo(roundedX, axesBegin.y);
       context2d.lineTo(roundedX, yAxesEnd.y);
 
@@ -48,4 +50,18 @@ const isBetweenExtendedZone = (
     point.y >= highRightCoords.y;
 
   return isBetweenX && isBetweenY;
+};
+
+const drawControlPoint = (
+  context2d: CanvasRenderingContext2D,
+  x: number
+): void => {
+  const y = 10;
+  const radius = 2;
+  const startAngle = 0;
+  const endAngle = 2 * Math.PI;
+
+  context2d.beginPath();
+  context2d.arc(x, y, radius, startAngle, endAngle);
+  context2d.fill();
 };

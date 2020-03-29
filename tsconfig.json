@@ -9,7 +9,8 @@
     "jsx": "react",
     "strict": true,
     "esModuleInterop": true,
-    "removeComments": true
+    "removeComments": true,
+    "downlevelIteration": true
   },
   "exclude": [
     "node_modules"

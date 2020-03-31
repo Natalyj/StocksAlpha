@@ -1,19 +1,24 @@
+import { GraphCoordinates } from '../types';
+import { roundFast } from '../utils';
+
 export const drawGraph = (
   context2d: CanvasRenderingContext2D,
-  dataCoordinates: Map<number, number>
+  dataCoordinates: GraphCoordinates
 ): void => {
-  console.log(dataCoordinates);
-  let wasDrawingInitiated = false;
+  const { initialX, xStep, yCoordinates } = dataCoordinates;
+
+  if (yCoordinates.length === 0) {
+    return;
+  }
+
+  let currentX = initialX;
 
   context2d.beginPath();
 
-  for (const [x, y] of dataCoordinates) {
-    if (!wasDrawingInitiated) {
-      context2d.moveTo(x, y);
-      wasDrawingInitiated = true;
-    } else {
-      context2d.lineTo(x, y);
-    }
+  context2d.moveTo(currentX, yCoordinates[0]);
+  for (let i = 1; i < yCoordinates.length; i++) {
+    currentX += xStep;
+    context2d.lineTo(roundFast(currentX), yCoordinates[i]);
   }
 
   context2d.stroke();

@@ -1,11 +1,16 @@
 import { AXIS_PICKING_ZONE, GRAPH_PADDING } from '../constants';
-import { Point2D, RectangleCoords, AxisCoords } from '../types';
+import {
+  Point2D,
+  RectangleCoords,
+  AxisCoords,
+  GraphCoordinates,
+} from '../types';
 import { roundFast } from '../utils';
 
 export const addControlLine = (
   context2d: CanvasRenderingContext2D,
   axisCoords: AxisCoords,
-  dataCoordinates: Map<number, number>
+  graphCoordinates: GraphCoordinates
 ): void => {
   const { canvas } = context2d;
   const { axesBegin, xAxesEnd, yAxesEnd } = axisCoords;
@@ -29,7 +34,11 @@ export const addControlLine = (
       context2d.clearRect(0, 0, canvas.width, canvas.height);
       context2d.beginPath();
 
-      drawControlPoint(context2d, roundedX);
+      drawControlPoint(
+        context2d,
+        roundedX,
+        getInterpolatedY(roundedX, graphCoordinates)
+      );
       context2d.moveTo(roundedX, axesBegin.y);
       context2d.lineTo(roundedX, yAxesEnd.y);
 
@@ -54,9 +63,9 @@ const isBetweenExtendedZone = (
 
 const drawControlPoint = (
   context2d: CanvasRenderingContext2D,
-  x: number
+  x: number,
+  y: number
 ): void => {
-  const y = 10;
   const radius = 2;
   const startAngle = 0;
   const endAngle = 2 * Math.PI;
@@ -64,4 +73,35 @@ const drawControlPoint = (
   context2d.beginPath();
   context2d.arc(x, y, radius, startAngle, endAngle);
   context2d.fill();
+};
+
+const getInterpolatedY = (
+  x: number,
+  graphCoordinates: GraphCoordinates
+): number => {
+  let interpolatedY = 0;
+  const { initialX, xStep, yCoordinates } = graphCoordinates;
+
+  const diff = x - initialX;
+  const farIndex = diff / xStep;
+  const upperIndex = Math.ceil(farIndex);
+  const lowerIndex = Math.floor(farIndex);
+
+  if (farIndex === upperIndex || farIndex === lowerIndex) {
+    interpolatedY = yCoordinates[farIndex];
+  } else {
+    const roundedStep = roundFast(xStep);
+
+    const lowerY = yCoordinates[lowerIndex];
+    const upperY = yCoordinates[upperIndex];
+
+    const lowerX = roundFast(initialX + lowerIndex * xStep);
+    const upperX = roundFast(lowerX + xStep);
+
+    // the formula for linear interpolation of y in the interval [lowerX, upperX]
+    interpolatedY =
+      (lowerY * (upperX - x) + upperY * (x - lowerX)) / roundedStep;
+  }
+
+  return roundFast(interpolatedY);
 };

@@ -13,3 +13,9 @@ export interface AxisCoords {
   xAxesEnd: Point2D;
   yAxesEnd: Point2D;
 }
+
+export interface GraphCoordinates {
+  initialX: number;
+  xStep: number;
+  yCoordinates: number[];
+}

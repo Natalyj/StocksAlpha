@@ -1,4 +1,4 @@
-import { AxisCoords } from './types';
+import { AxisCoords, GraphCoordinates } from './types';
 import { AXIS_PADDING, GRAPH_PADDING } from './constants';
 
 export const getContext2d = (canvasId: string): CanvasRenderingContext2D => {
@@ -35,14 +35,16 @@ export const roundFast = (value: number): number => (0.5 + value) << 0;
 export const getDataCoordinates = (
   dataToDraw: Array<any>,
   context2d: CanvasRenderingContext2D
-): Map<number, number> => {
-  const coordinates = new Map<number, number>();
-
+): GraphCoordinates => {
   const numberOfPoints = dataToDraw.length;
   const keys = Object.keys(dataToDraw[0]);
 
   if (numberOfPoints === 0 || keys.length !== 2) {
-    return coordinates;
+    return {
+      initialX: 0,
+      xStep: 0,
+      yCoordinates: [],
+    };
   }
 
   const {
@@ -68,14 +70,11 @@ export const getDataCoordinates = (
       graphEdgesPadding + getVariationFromYMax(currentY) * yGapBetweenPoints
     );
 
-  let currentX = graphEdgesPadding;
-  coordinates.set(currentX, getGraphRelatedY(yValues[0]));
-  for (let i = 1; i < numberOfPoints; i++) {
-    currentX += xGapBetweenPoints;
-    coordinates.set(roundFast(currentX), getGraphRelatedY(yValues[i]));
-  }
-
-  return coordinates;
+  return {
+    initialX: graphEdgesPadding,
+    xStep: xGapBetweenPoints,
+    yCoordinates: yValues.map(yValue => getGraphRelatedY(yValue)),
+  };
 };
 
 const getDataCharacteristics = (

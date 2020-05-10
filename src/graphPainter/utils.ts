@@ -1,5 +1,8 @@
-import { AxisCoords, GraphCoordinates } from './types';
+import { AxisCoords, GraphCoordinates, Point2D, Actions } from './types';
 import { AXIS_PADDING, GRAPH_PADDING } from './constants';
+import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
+import { setMousePosition, setInteractionMode, setCurrentY } from './redux';
 
 export const getContext2d = (canvasId: string): CanvasRenderingContext2D => {
   const canvas = document.getElementById(canvasId);
@@ -12,6 +15,16 @@ export const getContext2d = (canvasId: string): CanvasRenderingContext2D => {
   }
 
   throw new Error(`No context for ${canvasId} canvas`);
+};
+
+export const getRootElement = (): HTMLElement => {
+  const root = document.getElementById('root');
+
+  if (root === null) {
+    throw new Error('No root element found');
+  }
+
+  return root;
 };
 
 export const computeAxisCoords = (
@@ -99,4 +112,27 @@ const getDataCharacteristics = (
   });
 
   return { values, min, max };
+};
+
+export const getActionsCallbacks = (): Actions => {
+  const dispatch = useDispatch();
+
+  const _setMousePosition = useCallback(
+    (mousePosition: Point2D) => dispatch(setMousePosition(mousePosition)),
+    [dispatch]
+  );
+  const _setInteractionMode = useCallback(
+    (interactionMode: boolean) => dispatch(setInteractionMode(interactionMode)),
+    [dispatch]
+  );
+  const _setCurrentY = useCallback(
+    (currentY: number) => dispatch(setCurrentY(currentY)),
+    [dispatch]
+  );
+
+  return {
+    setMousePosition: _setMousePosition,
+    setInteractionMode: _setInteractionMode,
+    setCurrentY: _setCurrentY,
+  };
 };

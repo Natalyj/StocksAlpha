@@ -4,13 +4,15 @@ import {
   RectangleCoords,
   AxisCoords,
   GraphCoordinates,
+  Actions,
 } from '../types';
 import { roundFast } from '../utils';
 
 export const addControlLine = (
   context2d: CanvasRenderingContext2D,
   axisCoords: AxisCoords,
-  graphCoordinates: GraphCoordinates
+  graphCoordinates: GraphCoordinates,
+  actions: Actions
 ): void => {
   const { canvas } = context2d;
   const { axesBegin, xAxesEnd, yAxesEnd } = axisCoords;
@@ -26,6 +28,8 @@ export const addControlLine = (
     },
   };
 
+  let currentMode = false;
+
   canvas.onmousemove = (event: MouseEvent): void => {
     const { x, y } = event;
     if (isBetweenExtendedZone({ x, y }, graphBoundingRect)) {
@@ -34,15 +38,20 @@ export const addControlLine = (
       context2d.clearRect(0, 0, canvas.width, canvas.height);
       context2d.beginPath();
 
-      drawControlPoint(
-        context2d,
+      const [interpolatedY, actualY] = getCorrespondingYs(
         roundedX,
-        getInterpolatedY(roundedX, graphCoordinates)
+        graphCoordinates
       );
+
+      drawControlPoint(context2d, roundedX, interpolatedY);
       context2d.moveTo(roundedX, axesBegin.y);
       context2d.lineTo(roundedX, yAxesEnd.y);
 
       context2d.stroke();
+
+      currentMode = setStoreValues(currentMode, { x, y }, actualY, actions);
+    } else {
+      currentMode = resetStoreValues(currentMode, actions);
     }
   };
 };
@@ -75,10 +84,10 @@ const drawControlPoint = (
   context2d.fill();
 };
 
-const getInterpolatedY = (
+const getCorrespondingYs = (
   x: number,
   graphCoordinates: GraphCoordinates
-): number => {
+): [number, number] => {
   let interpolatedY = 0;
   const { initialX, xStep, yCoordinates } = graphCoordinates;
 
@@ -103,5 +112,39 @@ const getInterpolatedY = (
       (lowerY * (upperX - x) + upperY * (x - lowerX)) / roundedStep;
   }
 
-  return roundFast(interpolatedY);
+  return [roundFast(interpolatedY), yCoordinates[lowerIndex]];
+};
+
+const resetStoreValues = (
+  currentInteractionMode: boolean,
+  actions: Actions
+): boolean => {
+  const { setInteractionMode, setMousePosition, setCurrentY } = actions;
+
+  if (currentInteractionMode) {
+    currentInteractionMode = false;
+    setInteractionMode(currentInteractionMode);
+    setMousePosition({ x: 0, y: 0 });
+    setCurrentY(0);
+  }
+
+  return currentInteractionMode;
+};
+
+const setStoreValues = (
+  currentInteractionMode: boolean,
+  mousePosition: Point2D,
+  currentY: number,
+  actions: Actions
+): boolean => {
+  const { setInteractionMode, setMousePosition, setCurrentY } = actions;
+
+  if (!currentInteractionMode) {
+    currentInteractionMode = true;
+    setInteractionMode(currentInteractionMode);
+  }
+  setCurrentY(currentY);
+  setMousePosition(mousePosition);
+
+  return currentInteractionMode;
 };

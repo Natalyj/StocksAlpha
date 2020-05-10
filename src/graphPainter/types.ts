@@ -19,3 +19,9 @@ export interface GraphCoordinates {
   xStep: number;
   yCoordinates: number[];
 }
+
+export interface Actions {
+  setMousePosition: (mousePosition: Point2D) => void;
+  setInteractionMode: (interactionMode: boolean) => void;
+  setCurrentY: (currentY: number) => void;
+}

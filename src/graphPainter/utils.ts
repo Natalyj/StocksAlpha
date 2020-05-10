@@ -117,22 +117,19 @@ const getDataCharacteristics = (
 export const getActionsCallbacks = (): Actions => {
   const dispatch = useDispatch();
 
-  const _setMousePosition = useCallback(
-    (mousePosition: Point2D) => dispatch(setMousePosition(mousePosition)),
-    [dispatch]
-  );
-  const _setInteractionMode = useCallback(
-    (interactionMode: boolean) => dispatch(setInteractionMode(interactionMode)),
-    [dispatch]
-  );
-  const _setCurrentY = useCallback(
-    (currentY: number) => dispatch(setCurrentY(currentY)),
-    [dispatch]
-  );
-
   return {
-    setMousePosition: _setMousePosition,
-    setInteractionMode: _setInteractionMode,
-    setCurrentY: _setCurrentY,
+    setMousePosition: useCallback(
+      (mousePosition: Point2D) => dispatch(setMousePosition(mousePosition)),
+      [dispatch]
+    ),
+    setInteractionMode: useCallback(
+      (interactionMode: boolean) =>
+        dispatch(setInteractionMode(interactionMode)),
+      [dispatch]
+    ),
+    setCurrentY: useCallback(
+      (currentY: number) => dispatch(setCurrentY(currentY)),
+      [dispatch]
+    ),
   };
 };

@@ -45,6 +45,14 @@ export const computeAxisCoords = (
 
 export const roundFast = (value: number): number => (0.5 + value) << 0;
 
+export const roundToDecimals = (
+  value: number,
+  decimalPlaces: number
+): number => {
+  const tensAmount = Math.pow(10, decimalPlaces);
+  return Math.round((value + Number.EPSILON) * tensAmount) / tensAmount;
+};
+
 export const getDataCoordinates = (
   dataToDraw: Array<any>,
   context2d: CanvasRenderingContext2D
@@ -56,6 +64,7 @@ export const getDataCoordinates = (
     return {
       initialX: 0,
       xStep: 0,
+      yValues: [],
       yCoordinates: [],
     };
   }
@@ -86,6 +95,7 @@ export const getDataCoordinates = (
   return {
     initialX: graphEdgesPadding,
     xStep: xGapBetweenPoints,
+    yValues: yValues.map(yValue => roundToDecimals(yValue, 2)),
     yCoordinates: yValues.map(yValue => getGraphRelatedY(yValue)),
   };
 };

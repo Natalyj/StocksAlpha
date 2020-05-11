@@ -89,7 +89,7 @@ const getCorrespondingYs = (
   graphCoordinates: GraphCoordinates
 ): [number, number] => {
   let interpolatedY = 0;
-  const { initialX, xStep, yCoordinates } = graphCoordinates;
+  const { initialX, xStep, yValues, yCoordinates } = graphCoordinates;
 
   const diff = x - initialX;
   const farIndex = diff / xStep;
@@ -112,7 +112,7 @@ const getCorrespondingYs = (
       (lowerY * (upperX - x) + upperY * (x - lowerX)) / roundedStep;
   }
 
-  return [roundFast(interpolatedY), yCoordinates[lowerIndex]];
+  return [roundFast(interpolatedY), yValues[lowerIndex]];
 };
 
 const resetStoreValues = (

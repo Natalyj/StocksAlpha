@@ -17,6 +17,7 @@ export interface AxisCoords {
 export interface GraphCoordinates {
   initialX: number;
   xStep: number;
+  yValues: number[];
   yCoordinates: number[];
 }
 

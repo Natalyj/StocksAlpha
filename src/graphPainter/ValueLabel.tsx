@@ -2,8 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { useSelector } from 'react-redux';
 
-import { getMousePosition, isInteractionMode, getCurrentY } from './redux';
+import {
+  getMousePosition,
+  isInteractionMode,
+  getCurrentY,
+} from './redux/selectors';
 import { getRootElement } from './utils';
+import { LABEL_OFFSET } from './constants';
 
 export const ValueLabel: React.FC = () => {
   const root = getRootElement();
@@ -17,10 +22,11 @@ export const ValueLabel: React.FC = () => {
     <div
       style={{
         position: 'absolute',
-        top: y,
-        left: x,
+        top: y + LABEL_OFFSET,
+        left: x + LABEL_OFFSET,
+        backgroundColor: 'white',
         border: '1px solid black',
-        zIndex: 100,
+        zIndex: 1,
       }}
     >
       {value}

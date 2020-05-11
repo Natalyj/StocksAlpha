@@ -13,4 +13,3 @@ export const store = createStore(
 );
 
 export * from './scene/actions';
-export * from './selectors';

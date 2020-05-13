@@ -2,7 +2,15 @@ import { AxisCoords, GraphCoordinates, Point2D, Actions } from './types';
 import { AXIS_PADDING, GRAPH_PADDING } from './constants';
 import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
-import { setMousePosition, setInteractionMode, setCurrentY } from './redux';
+import {
+  setMousePosition,
+  setInteractionMode,
+  setCurrentY,
+  setCurrentX,
+} from './redux';
+
+export const getStaticCanvasId = (id: string): string => `${id}-static`;
+export const getDynamicCanvasId = (id: string): string => `${id}-dynamic`;
 
 export const getContext2d = (canvasId: string): CanvasRenderingContext2D => {
   const canvas = document.getElementById(canvasId);
@@ -64,6 +72,7 @@ export const getDataCoordinates = (
     return {
       initialX: 0,
       xStep: 0,
+      xValues: [],
       yValues: [],
       yCoordinates: [],
     };
@@ -95,6 +104,7 @@ export const getDataCoordinates = (
   return {
     initialX: graphEdgesPadding,
     xStep: xGapBetweenPoints,
+    xValues: dataToDraw.map(data => data[keys[0]]),
     yValues: yValues.map(yValue => roundToDecimals(yValue, 2)),
     yCoordinates: yValues.map(yValue => getGraphRelatedY(yValue)),
   };
@@ -137,8 +147,12 @@ export const getActionsCallbacks = (): Actions => {
         dispatch(setInteractionMode(interactionMode)),
       [dispatch]
     ),
+    setCurrentX: useCallback(
+      (currentX: string) => dispatch(setCurrentX(currentX)),
+      [dispatch]
+    ),
     setCurrentY: useCallback(
-      (currentY: number) => dispatch(setCurrentY(currentY)),
+      (currentY: string) => dispatch(setCurrentY(currentY)),
       [dispatch]
     ),
   };

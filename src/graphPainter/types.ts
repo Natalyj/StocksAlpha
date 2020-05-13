@@ -17,12 +17,20 @@ export interface AxisCoords {
 export interface GraphCoordinates {
   initialX: number;
   xStep: number;
+  xValues: string[];
   yValues: number[];
   yCoordinates: number[];
+}
+
+export interface CorrespondingCoordinates {
+  interpolatedY: number;
+  actualX: string;
+  actualY: string;
 }
 
 export interface Actions {
   setMousePosition: (mousePosition: Point2D) => void;
   setInteractionMode: (interactionMode: boolean) => void;
-  setCurrentY: (currentY: number) => void;
+  setCurrentX: (currentX: string) => void;
+  setCurrentY: (currentY: string) => void;
 }

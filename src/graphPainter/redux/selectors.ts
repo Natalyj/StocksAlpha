@@ -7,4 +7,6 @@ export const isInteractionMode = (state: RootState): boolean =>
 export const getMousePosition = (state: RootState): Point2D =>
   state.scene.mousePosition;
 
-export const getCurrentY = (state: RootState): number => state.scene.currentY;
+export const getCurrentX = (state: RootState): string => state.scene.currentX;
+
+export const getCurrentY = (state: RootState): string => state.scene.currentY;

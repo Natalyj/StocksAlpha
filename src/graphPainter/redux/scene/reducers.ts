@@ -4,12 +4,14 @@ import {
   SET_INTERACTION_MODE,
   SET_MOUSE_POSITION,
   SET_CURRENT_Y,
+  SET_CURRENT_X,
 } from './types';
 
 const initialState: State = {
   interactionMode: false,
   mousePosition: { x: 0, y: 0 },
-  currentY: 0,
+  currentX: '',
+  currentY: '',
 };
 
 export const sceneReducer = (
@@ -26,6 +28,11 @@ export const sceneReducer = (
       return {
         ...state,
         mousePosition: action.payload,
+      };
+    case SET_CURRENT_X:
+      return {
+        ...state,
+        currentX: action.payload,
       };
     case SET_CURRENT_Y:
       return {

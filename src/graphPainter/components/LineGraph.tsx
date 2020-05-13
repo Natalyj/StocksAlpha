@@ -4,11 +4,14 @@ import {
   computeAxisCoords,
   getDataCoordinates,
   getActionsCallbacks,
-} from './utils';
-import { drawAxes, drawGraph, addControlLine } from './draw';
-import { ValueLabel } from './ValueLabel';
+  getStaticCanvasId,
+  getDynamicCanvasId,
+} from '../utils';
+import { drawAxes, drawGraph, addControlLine } from '../draw';
+import { YValueLabel } from './labels/YValueLabel';
 import { Provider } from 'react-redux';
-import { store } from './redux';
+import { store } from '../redux';
+import { XValueLabel } from './labels/XValueLabel';
 
 interface Props {
   id: string;
@@ -16,9 +19,6 @@ interface Props {
   height: number;
   dataToDraw: Array<any>;
 }
-
-const getStaticCanvasId = (id: string): string => `${id}-static`;
-const getDynamicCanvasId = (id: string): string => `${id}-dynamic`;
 
 const Graph: React.FC<Props> = ({ id, width, height, dataToDraw }: Props) => {
   const idStatic = getStaticCanvasId(id);
@@ -52,7 +52,8 @@ const Graph: React.FC<Props> = ({ id, width, height, dataToDraw }: Props) => {
         height={height}
         style={{ zIndex: 2, position: 'absolute' }}
       />
-      <ValueLabel />
+      <XValueLabel canvasHeight={height} />
+      <YValueLabel canvasHeight={height} />
     </>
   );
 };

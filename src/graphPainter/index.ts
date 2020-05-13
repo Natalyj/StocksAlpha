@@ -1,3 +1,3 @@
-import { LineGraph } from './LineGraph';
+import { LineGraph } from './components/LineGraph';
 
 export { LineGraph };
